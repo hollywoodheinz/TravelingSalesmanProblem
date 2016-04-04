@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace TSP
 {
@@ -10,6 +11,17 @@ namespace TSP
     {
         static void Main(string[] args)
         {
+            Console.WriteLine("Welcome to my Sovler for the Travelling Salesman Problem");
+
+            GenerateMenu();
+        }
+
+        static void GenerateMenu()
+        {
+            Console.Write("Please type the file path for the Graph: ");
+            String filePath = Console.ReadLine();
+            Console.WriteLine("\t" + filePath);
+            Console.ReadKey();
         }
     }
 }
