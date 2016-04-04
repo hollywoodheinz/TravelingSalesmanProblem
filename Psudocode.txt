@@ -1,0 +1,7 @@
+Psudocode for 4310 Program
+
+Read in graph from file
+read in line by line 
+Format is (Source Node) (Destination Node) (Distance)
+create distance matrix [Source] [Destination] = [Distance]
+---aside since the max size for an array i0s 2,147,483,647 or 2gb limit we need to make either an array of arrays containing and int or create a struct or class
