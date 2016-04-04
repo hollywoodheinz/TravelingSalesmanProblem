@@ -27,6 +27,7 @@ namespace TSP
 
         static void ReadFile(string File)
         {
+            StreamReader file = new StreamReader(File);
 
         }
     }
