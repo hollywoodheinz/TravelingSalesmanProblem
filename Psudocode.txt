@@ -1,7 +1,23 @@
 Psudocode for 4310 Program
 
+Present menu to type in path to file
 Read in graph from file
 read in line by line 
+Create arrays of nodes of size given by graph document
+
 Format is (Source Node) (Destination Node) (Distance)
 create distance matrix [Source] [Destination] = [Distance]
 ---aside since the max size for an array i0s 2,147,483,647 or 2gb limit we need to make either an array of arrays containing and int or create a struct or class
+
+CLASS--Node
+
+Visted Bool
+Array Distance[i] = Distance I=nodes
+methods:
+set home node(int i)
+	distance[i] = 0
+set node distance(int node, int dist)
+	distance[node] = dist
+int get node dist(int node)
+	return distance[node]
+
