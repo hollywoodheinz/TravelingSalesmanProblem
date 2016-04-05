@@ -1,1 +1,23 @@
 Sources For Project
+
+http://stackoverflow.com/questions/4734116/find-and-extract-a-number-from-a-string
+
+string input = "There are 4 numbers in this string: 40, 30, and 10.";
+// Split on one or more non-digit characters.
+string[] numbers = Regex.Split(input, @"\D+");
+foreach (string value in numbers)
+{
+    if (!string.IsNullOrEmpty(value))
+    {
+    int i = int.Parse(value);
+    Console.WriteLine("Number: {0}", i);
+    }
+}
+
+https://web.tuke.sk/fei-cit/butka/hop/htsp.pdf
+
+http://cms.uhd.edu/faculty/redlt/annemseniorproject.pdf
+
+http://www.psychicorigami.com/2007/04/17/tackling-the-travelling-salesman-problem-part-one/
+
+http://condor.depaul.edu/rjohnson/source/graph_ge.c

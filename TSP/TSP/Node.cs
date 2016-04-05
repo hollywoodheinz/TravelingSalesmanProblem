@@ -8,9 +8,18 @@ namespace TSP
 {
     class Node
     {
-        private bool Visited;
+        private bool Visited = false;
         private int[] Distance;
+        private int Base;
 
+        public Node()
+        {
+
+        }
+        public Node(int b)
+        {
+            Base = b;
+        }
         public void SetDistanceLength(int length)
         {
             Distance = new int[length];
