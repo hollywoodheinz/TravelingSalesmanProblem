@@ -69,18 +69,29 @@ namespace TSP
             Random rand = new Random();
             int source = rand.Next(0, nodes);
             int i;
+            int x;
             Path[0] = Cities[source];
             Cities[source].SetVisted(true);
             for(i = 1; i < nodes; i++)
             {
-                Node nearestNode;
-                for (int x = 0; x < nodes; x++)
+                int nearestNode;
+                for  (x = 0; x < nodes; x++)
                 {
                     
-                    Cities[i].ReturnNodeDistance(x);
-
+                    int dist = Cities[i].ReturnNodeDistance(x);
+                    if(x == 0){
+                        nearestNode = 0;
+                    }else{
+                        if(Cities[source].ReturnNodeDistance(nearestNode) > Cities[source].ReturnNodeDistance(x) && !Cities[x].GetVisted){
+                            nearestNode = x;
+                        }
+                    }
+                    
                 }
+                Path[i] = Cities[x];
+                
             }
+            
 
         }
     }
