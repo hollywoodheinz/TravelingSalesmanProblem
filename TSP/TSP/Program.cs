@@ -29,7 +29,8 @@ namespace TSP
             Console.WriteLine("\t" + filePath);
             ReadGraph(filePath);
             FindPath();
-            PrintPath();
+            //PrintPath();
+            PrintNodeArray();
         }
 
         static void ReadGraph(string File)
@@ -92,7 +93,7 @@ namespace TSP
                 for  (x = 0; x < nodes; x++)
                 {
                     
-                    int dist = Cities[i].ReturnNodeDistance(x);
+                    
                     if(x == 0){
                         nearestNode = 0;
                     }else{
@@ -116,6 +117,24 @@ namespace TSP
             {
                 Console.WriteLine(Path[x].GetBase());
             }
+        }
+
+        static void PrintNodeArray()
+        {
+            int x;
+            int i;
+            
+            for (i = 0;i < Cities.Length; i++)
+            {
+                string concat = "";
+                Console.Write("Distances for Node: {0}", i);
+                for (x = 0; x < Cities.Length; x++)
+                {
+                    concat += " " + Cities[i].ReturnNodeDistance(x);
+                }
+                Console.Write(concat + "\n");
+            }
+            Console.ReadKey();
         }
     }
 }
