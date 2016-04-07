@@ -49,5 +49,10 @@ namespace TSP
         {
             Visited = visit;
         }
+
+        public int GetBase()
+        {
+            return Base;
+        }
     }
 }

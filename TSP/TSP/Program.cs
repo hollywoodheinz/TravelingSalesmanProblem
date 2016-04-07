@@ -47,22 +47,34 @@ namespace TSP
                 if(counter == 0)
                 {
                     split = Regex.Split(line, @"\D+");
-                    nodes = int.Parse(split[0]);
-                    verticies = int.Parse(split[1]);
+                    nodes = int.Parse(split[1]);
+                    verticies = int.Parse(split[2]);
                     Cities = new Node[nodes];
+                    Console.WriteLine("Reading in Graph with {0} nodes and {1} verticies!", nodes, verticies);
                 }
                 else
                 {
                     split = Regex.Split(line, @"\D+");
-                    source = int.Parse(split[0]);
-                    dest = int.Parse(split[1]);
-                    dist = int.Parse(split[2]);
+                    source = int.Parse(split[1]);
+                    dest = int.Parse(split[2]);
+                    dist = int.Parse(split[3]);
+                    if(Cities[source-1] == null)
+                    {
+                        Cities[source - 1] = new Node(source -1);
+                        Cities[source - 1].SetDistanceLength(verticies);
+                    }
+                    if(Cities[dest-1] == null)
+                    {
+                        Cities[dest - 1] = new Node(dest -1);
+                        Cities[dest - 1].SetDistanceLength(verticies);
+                    }
                     Cities[source-1].SetNodeDistance(dest-1, dist);
                     Cities[dest-1].SetNodeDistance(source-1, dist);
+                    Console.WriteLine("Writing Edge from {0} to {1} with distance {2}", source, dest, dist);
                 }
                 counter++;
             }
-            Console.ReadKey();
+            //Console.ReadKey();
         }
 
         static void FindPath()
@@ -91,7 +103,8 @@ namespace TSP
                     }
                     
                 }
-                Path[i] = Cities[x];
+                Path[i] = Cities[nearestNode];
+                Cities[nearestNode].SetVisted(true);
                 
             }
             
@@ -101,7 +114,7 @@ namespace TSP
         {
             for(int x = 0;x < Path.Length; x++)
             {
-                Console.WriteLine(Path[x].ToString());
+                Console.WriteLine(Path[x].GetBase());
             }
         }
     }
