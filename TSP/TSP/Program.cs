@@ -29,51 +29,52 @@ namespace TSP
             Console.WriteLine("\t" + filePath);
             ReadGraph(filePath);
             FindPath();
-            //PrintPath();
-            PrintNodeArray();
+            //PrintNodeArray();
+            PrintPath();
+
         }
 
-        static void ReadGraph(string File)
+        static void ReadGraph(string fileName)
         {
-            StreamReader file = new StreamReader(File);
+            //StreamReader file = new StreamReader(fileName);
             int counter = 0;
             string line;
             string[] split;
             int source;
             int dest;
             int dist;
-            
-            while((line = file.ReadLine()) != null)
+            using (StreamReader sr = File.OpenText(fileName))
             {
-                if(counter == 0)
+                while ((line = sr.ReadLine()) != null)
                 {
-                    split = Regex.Split(line, @"\D+");
-                    nodes = int.Parse(split[1]);
-                    verticies = int.Parse(split[2]);
-                    Cities = new Node[nodes];
-                    Console.WriteLine("Reading in Graph with {0} nodes and {1} verticies!", nodes, verticies);
-                }
-                else
-                {
-                    split = Regex.Split(line, @"\D+");
-                    source = int.Parse(split[1]);
-                    dest = int.Parse(split[2]);
-                    dist = int.Parse(split[3]);
-                    if(Cities[source-1] == null)
+                    if (counter == 0)
                     {
-                        Cities[source - 1] = new Node(source -1);
-                        Cities[source - 1].SetDistanceLength(verticies);
+                        split = Regex.Split(line, @"\D+");
+                        nodes = int.Parse(split[split.Length - 2]);
+                        verticies = int.Parse(split[split.Length-1]);
+                        Cities = new Node[nodes];
+                        //Console.WriteLine("Reading in Graph with {0} nodes and {1} verticies!", nodes, verticies);
                     }
-                    if(Cities[dest-1] == null)
+                    else
                     {
-                        Cities[dest - 1] = new Node(dest -1);
-                        Cities[dest - 1].SetDistanceLength(verticies);
+                        split = Regex.Split(line, @"\D+");
+                        source = int.Parse(split[split.Length - 3]);
+                        dest = int.Parse(split[split.Length - 2]);
+                        dist = int.Parse(split[split.Length - 1]);
+                        if (Cities[source - 1] == null)
+                        {
+                            Cities[source - 1] = new Node(source - 1, nodes);
+                        }
+                        if (Cities[dest - 1] == null)
+                        {
+                            Cities[dest - 1] = new Node(dest - 1, nodes);
+                        }
+                        Cities[source - 1].SetNodeDistance(dest - 1, dist);
+                        Cities[dest - 1].SetNodeDistance(source - 1, dist);
+                        //Console.WriteLine("Writing Edge from {0} to {1} with distance {2}", source, dest, dist);
                     }
-                    Cities[source-1].SetNodeDistance(dest-1, dist);
-                    Cities[dest-1].SetNodeDistance(source-1, dist);
-                    Console.WriteLine("Writing Edge from {0} to {1} with distance {2}", source, dest, dist);
+                    counter++;
                 }
-                counter++;
             }
             //Console.ReadKey();
         }
@@ -87,27 +88,26 @@ namespace TSP
             int x;
             Path[0] = Cities[source];
             Cities[source].SetVisted(true);
+            int currentNode = source;
+            
             for(i = 1; i < nodes; i++)
             {
                 int nearestNode = -1;
+                int currentDistance = 101;
                 for  (x = 0; x < nodes; x++)
                 {
-                    
-                    
-                    if(x == 0){
-                        nearestNode = 0;
-                    }else{
-                        if(Cities[source].ReturnNodeDistance(nearestNode) > Cities[source].ReturnNodeDistance(x) && !Cities[x].GetVisted() && nearestNode >= 0 && Cities[source].ReturnNodeDistance(x) > 0)
-                        {
-                            nearestNode = x;
-                        }
+                    if(Cities[currentNode].ReturnNodeDistance(x) < currentDistance && !Cities[x].GetVisted())
+                    {
+                        currentDistance = Cities[currentNode].ReturnNodeDistance(x);
+                        nearestNode = x;
                     }
-                    
                 }
                 Path[i] = Cities[nearestNode];
                 Cities[nearestNode].SetVisted(true);
+                currentNode = nearestNode;
                 
             }
+            Path[nodes] = Cities[source];
             
 
         }
@@ -117,6 +117,7 @@ namespace TSP
             {
                 Console.WriteLine(Path[x].GetBase());
             }
+            Console.ReadKey();
         }
 
         static void PrintNodeArray()
@@ -127,7 +128,7 @@ namespace TSP
             for (i = 0;i < Cities.Length; i++)
             {
                 string concat = "";
-                Console.Write("Distances for Node: {0}", i);
+                Console.Write("Distances for Node {0}: ", i);
                 for (x = 0; x < Cities.Length; x++)
                 {
                     concat += " " + Cities[i].ReturnNodeDistance(x);

@@ -19,6 +19,14 @@ namespace TSP
         public Node(int b)
         {
             Base = b;
+
+        }
+
+        public Node(int b, int length)
+        {
+            Base = b;
+            Distance = new int[length];
+            Distance[Base] = 101;
         }
         public void SetDistanceLength(int length)
         {
@@ -27,12 +35,7 @@ namespace TSP
 
         public int ReturnNodeDistance(int node)
         {
-            int x = 0;
-            if(Distance[node] > 0)
-            {
-                x = Distance[node];
-            }
-            return x;
+            return Distance[node];
         }
 
         public void SetNodeDistance(int node, int dist)
