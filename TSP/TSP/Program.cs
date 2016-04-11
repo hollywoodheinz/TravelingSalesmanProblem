@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.IO;
+using System.Diagnostics;
 
 
 namespace TSP
@@ -15,6 +16,8 @@ namespace TSP
         static int nodes;
         static int verticies;
         static Node[] Path;
+        static Stopwatch stopWatch = new Stopwatch();
+
         static void Main(string[] args)
         {
             Console.WriteLine("Welcome to my Sovler for the Travelling Salesman Problem");
@@ -27,10 +30,13 @@ namespace TSP
             Console.Write("Please type the file path for the Graph: ");
             String filePath = Console.ReadLine();
             Console.WriteLine("\t" + filePath);
+            stopWatch.Start();
             ReadGraph(filePath);
             FindPath();
+            stopWatch.Stop();
             //PrintNodeArray();
-            PrintPath();
+            //PrintPath();
+            WritePath();
 
         }
 
@@ -136,6 +142,37 @@ namespace TSP
                 Console.Write(concat + "\n");
             }
             Console.ReadKey();
+        }
+
+        static void WritePath()
+        {
+            Console.Write("Please Enter Path File Destination: ");
+            string fileDest = Console.ReadLine();
+            StreamWriter sw = new StreamWriter(fileDest, true);
+            int pastDist = PathDistance();
+            TimeSpan ts = stopWatch.Elapsed;
+            sw.WriteLine("{0},{1},{2}", nodes, verticies, pastDist);
+            for(int i = 1; i < Path.Length; i++)
+            {
+                sw.WriteLine("{0},{1},{2}", Path[i - 1].GetBase(), Path[i].GetBase(), Path[i - 1].ReturnNodeDistance(Path[i].GetBase()));
+            }
+
+            string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
+                        ts.Hours, ts.Minutes, ts.Seconds,
+                        ts.Milliseconds / 10);
+            sw.WriteLine(elapsedTime);
+            sw.Close();
+        }
+
+        static int PathDistance()
+        {
+            int dist = 0;
+            int i;
+            for (i = 1; i < Path.Length; i++)
+            {
+                dist += Path[i - 1].ReturnNodeDistance(Path[i].GetBase());
+            }
+            return dist;
         }
     }
 }
