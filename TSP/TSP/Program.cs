@@ -147,7 +147,7 @@ namespace TSP
         static void WritePath()
         {
             Console.Write("Please Enter Path File Destination: ");
-            string fileDest = Console.ReadLine();
+            string fileDest = "path" + nodes + ".txt";
             StreamWriter sw = new StreamWriter(fileDest, true);
             int pastDist = PathDistance();
             TimeSpan ts = stopWatch.Elapsed;
